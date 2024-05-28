@@ -1,186 +1,153 @@
-import React, { useState } from "react";
-import { Link, NavLink } from "react-router-dom";
+import React, { useState, useContext, useEffect } from "react";
+import { NavLink } from "react-router-dom";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { FaBars, FaTimes } from "react-icons/fa";
+import { IoMdBook, IoMdApps, IoIosPerson } from "react-icons/io";
+import { FiTag } from "react-icons/fi";
+import { RiArticleLine } from "react-icons/ri";
+import Badge from 'react-bootstrap/Badge';
+import ApiContext from "../ContexApi";
 
 const Sidebar = () => {
     const [showSidebar, setShowSidebar] = useState(true);
+    const context = useContext(ApiContext)
+    const [comment, setComment] = useState([])
+    const { blog, steke, users, order } = context;
+    useEffect(() => {
+        fetch("http://localhost:3000/teket")
+            .then(res => res.json())
+            .then(data => setComment(data))
+    }, [])
+    const toggleSidebar = () => {
+        setShowSidebar(!showSidebar);
+    };
 
     return (
         <nav className={`sidebar rtl ${!showSidebar ? "collapsed" : ""} bg-purple`}>
             <div className="sidebar-content">
-                <a className="sidebar-brand d-flex flex-column align-items-center pt-3 mb-4">
-                    <p className="mb-0 text-white">عنوان نوار کناری</p>
-                </a>
+                <div className="d-flex justify-content-between align-items-center">
+                    <a className="sidebar-brand d-flex  align-items-center pt-3 mb-4">
+                        <img src="/src/assets/images/bg-img/profil.png" width={50} className="mb-0 me-3  text-white" style={{ borderRadius: "50%" }} />
+                        <h6 className={`text-white me-3 mt-1 ${showSidebar ? '' : 'collapsed'}`} style={{ fontSize: "15px" }}>پنل ادمین</h6>
+                    </a>
+                    <button className="btn btn-link text-white" onClick={toggleSidebar} style={{ marginTop: "-0.8rem" }}>
+                        {showSidebar ? <FaTimes size={24} /> : <FaBars className="text-dark" size={24} />}
+                    </button>
+                </div>
 
-                <ul className="nav flex-column pe-3">
+                <ul className="nav flex-column pe-3" style={{ overflow: "hidden" }}>
                     <li className="sidebar-header fw-bolder fs-lg text-white">
-                        مدیریت محصولات
+                        <span className={`${!showSidebar ? "d-none" : ""}`}>مدیریت محصولات</span>
                     </li>
                     <li className="nav-item">
                         <NavLink
-                            className={({ isActive }) =>
-                                isActive ? "nav-link active text-white" : "nav-link text-white"
-                            }
+                              className="nav-link text-white bg-transparent"
+                              activeClassName="active"
                             to="/admin"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-video align-middle me-2"
-                            >
-                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                            </svg>
-                            <span className="align-middle me-2">دسته‌بندی دوره‌ها</span>
+                            <IoMdApps className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>مدیریت فروش</span>
                         </NavLink>
                     </li>
                     <li className="nav-item">
                         <NavLink
-                            className={({ isActive }) =>
-                                isActive ? "nav-link active text-white" : "nav-link text-white"
-                            }
+                            className="nav-link text-white"
+                            activeClassName="active"
                             to="/admin/product"
                         >
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-video align-middle me-2"
-                            >
-                                <polygon points="23 7 16 12 23 17 23 7"></polygon>
-                                <rect x="1" y="5" width="15" height="14" rx="2" ry="2"></rect>
-                            </svg>
-                            <span className="align-middle me-2">همه محصولات</span>
+                            <IoMdBook className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>همه محصولات</span>
                         </NavLink>
                     </li>
-                  
                     <li className="nav-item">
-                        <a className="nav-link text-white">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-percent align-middle me-2"
-                            >
-                                <line x1="19" y1="5" x2="5" y2="19"></line>
-                                <circle cx="6.5" cy="6.5" r="2.5"></circle>
-                                <circle cx="17.5" cy="17.5" r="2.5"></circle>
-                            </svg>
-                            <Link to="/admin/blog" className="align-middle text-white me-2">وبلاگ ها</Link>
-                        </a>
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/admin/blog"
+                        >
+                            <RiArticleLine className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>
+                                بلاگ ها <Badge className="p-2 rounded rounded-end circle">{blog.length}</Badge>
+                            </span>
+                        </NavLink>
                     </li>
-                    <Link to="/" className="nav-item">
-                        <a className="nav-link text-white">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-users align-middle me-2"
-                            >
-                                <path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="9" cy="7" r="4"></circle>
-                                <path d="M23 21v-2a4 4 0 0 0-3-3.87"></path>
-                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            </svg>
-                            <span className="align-middle me-2"> بازگشت به صفحه اصلی </span>
-                        </a>
-                    </Link>
+                    <li className="nav-item">
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/"
+                        >
+                            <IoIosPerson className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}> بازگشت به صفحه اصلی </span>
+                        </NavLink>
+                    </li>
                     <li className="sidebar-header fw-bolder fs-lg text-white">
-                        مدیریت کاربران
+                        <span className={`${!showSidebar ? "d-none" : ""}`}>مدیریت کاربران</span>
                     </li>
-                    <Link to="/admin/order" className="nav-item">
-                        <a className="nav-link text-white">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-file-text align-middle me-2"
-                            >
-                                <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                                <polyline points="14 2 14 8 20 8"></polyline>
-                                <line x1="16" y1="13" x2="8" y2="13"></line>
-                                <line x1="16" y1="17" x2="8" y2="17"></line>
-                                <polyline points="10 9 9 9 8 9"></polyline>
-                            </svg>
-                            <span className="align-middle me-2">سفارش ها</span>
-                        </a>
-                    </Link>
-                   
-                  
+                       <li className="nav-item">
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/admin/advise"
+                        >
+                            <IoIosPerson className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>
+                                 کامنت  کاربران <Badge className="p-2 rounded rounded-end circle"></Badge>
+                            </span>
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/admin/users"
+                        >
+                            <IoIosPerson className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>
+                                کاربران <Badge className="p-2 rounded rounded-end circle">{}</Badge>
+                            </span>
+                        </NavLink>
+                    </li>
+                    <li className="nav-item">
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/admin/order"
+                        >
+                            <IoIosPerson className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>
+                                سفارش ها <Badge className="p-2 rounded rounded-end circle">{order.length}</Badge>
+                            </span>
+                        </NavLink>
+                    </li>
                     <li className="sidebar-header fw-bolder fs-lg text-white">
-                        مدیریت بلاگ
+                        <span className={`${!showSidebar ? "d-none" : ""}`}>مدیریت بلاگ</span>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-white">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-tag align-middle me-2"
-                            >
-                                <path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"></path>
-                                <line x1="7" y1="7" x2="7.01" y2="7"></line>
-                            </svg>
-                            <span className="align-middle me-2">مدیریت برچسب‌ها</span>
-                        </a>
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/admin/comment"
+                        >
+                            <FiTag className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>
+                                نظرات <Badge className="p-2 rounded rounded-end circle">{comment.length}</Badge>
+                            </span>
+                        </NavLink>
                     </li>
                     <li className="nav-item">
-                        <a className="nav-link text-white">
-                            <svg
-                                xmlns="http://www.w3.org/2000/svg"
-                                width="24"
-                                height="24"
-                                viewBox="0 0 24 24"
-                                fill="none"
-                                stroke="currentColor"
-                                strokeWidth="2"
-                                strokeLinecap="round"
-                                strokeLinejoin="round"
-                                className="feather feather-user align-middle me-2"
-                            >
-                                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
-                                <circle cx="12" cy="7" r="4"></circle>
-                            </svg>
-                            <span className="align-middle me-2">مدیریت اساتید</span>
-                        </a>
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/admin/styke"
+                        >
+                            <IoIosPerson className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>
+                                برچسب ها <Badge className="p-2 rounded rounded-end circle">{}</Badge>
+                            </span>
+                        </NavLink>
                     </li>
+                 
                 </ul>
             </div>
         </nav>

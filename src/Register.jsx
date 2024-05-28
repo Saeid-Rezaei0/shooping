@@ -54,7 +54,7 @@ const Register = () => {
 
         if (response.ok) {
           swal("ثبت نام با موفقیت انجام شد")
-          navagation("/")
+          navagation("/login")
         } else {
           console.error("Failed to register user");
           swal("ثبت نام ناموفق بود")

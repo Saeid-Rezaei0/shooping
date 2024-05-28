@@ -5,9 +5,9 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import ApiContext from '../ContexApi';
 import swal from 'sweetalert';
 
-const CheckOutPage = ({ formData }) => {
+const CheckOutPage = ({ formData  }) => {
     const context = useContext(ApiContext);
-    const { country, city, postalCode, phoneNumber } = formData ?? {};
+    const { country, city, postalCode, phoneNumber, useremail } = formData ?? {};
     if (!postalCode || !phoneNumber) {
         return (
             <div className="container-fluid rtl mt-5" style={{ width: "100%" }}>
@@ -35,7 +35,8 @@ const CheckOutPage = ({ formData }) => {
                 country: country,
                 city: city,
                 postalCode: postalCode,
-                phoneNumber: phoneNumber
+                phoneNumber: phoneNumber,
+                useremail: useremail
             },
             paymentData: data,
             items: parsedCartItem
@@ -51,7 +52,10 @@ const CheckOutPage = ({ formData }) => {
             .then(res => res.json())
             .then(responseData => {
                 localStorage.removeItem("cart");
-                swal("سفارش با موفقیت انجام شد");
+                swal({
+                title: "سفارش با موفقیت انجام شد",
+                icon: "success"
+                });
                 setOrder(prevOrder => [...prevOrder, requestData]);
             })
             .catch(error => {

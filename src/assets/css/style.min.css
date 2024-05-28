@@ -3000,7 +3000,16 @@ button {
     .course-item.style-4 .course-inner .course-thumb .course-category .course-cate {
         margin-bottom: 10px
     }
+    .pading100rem-custom {
+        padding: 8rem 1rem !important;
+    }
+    
+    .margintop--2rem {
+        margin-top: -40rem !important;
+    }
+    
 }
+
 
 .course-item.style-4 .course-inner .course-thumb .course-category .course-cate a {
     font-weight: 700
@@ -3008,6 +3017,45 @@ button {
 
 .course-item.style-4 .course-inner .course-content {
     padding: 20px 15px 5px
+}
+/* CSS */
+/* CSS */
+/* CSS */
+.text.collapsed {
+    display: none !important;
+}
+.color-btn{
+    background-color: #55ACEE !important;
+}
+
+
+.sidebar-header.collapsed .icon {
+    display: inline-block !important;
+}
+
+.icon.collapsed {
+    display: none !important;
+}
+
+.right-align {
+    text-align: right !important;
+}
+
+.left-align {
+    text-align: left !important;
+}
+
+.float-left {
+    float: left;
+    clear: both;
+}
+
+.float-right {
+    float: right;
+    clear: both;
+}
+.red-bg{
+color: red !important;
 }
 
 .course-item.style-4 .course-inner .course-content .course-footer .course-price {
@@ -10014,6 +10062,9 @@ footer.style-2 .footer-top.dark-view * {
 .background_Blue{
     background-color: #177ac6;
     color: #FFF;
+}
+.pading100rem-custom{
+    padding: 10rem;
 }
 .border-yellow:hover{
     background-color: rgb(240, 238, 235);

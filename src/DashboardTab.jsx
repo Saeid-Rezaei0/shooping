@@ -8,55 +8,76 @@ import ADDProduct from './ADDProduct';
 import myContext from './ContexApi';
 import Pagenation from './Shop/Pagenation';
 import Search from './Shop/Search';
+import swal from 'sweetalert';
 
 function DashboardTab() {
     const context = useContext(myContext);
-    const { mode, product, deletproduct, updateProduct , ADDproductDATA} = context;
+    const { mode, product, deletproduct, updateProduct, ADDproductDATA } = context;
     const [showModal, setShowModal] = useState(false);
-    const [showModalUPDATE, setshowModalUPDATE] = useState(false);
-    const [selectedProduct, setSelectedProduct] = useState();
+    const [showModalUPDATE, setShowModalUPDATE] = useState(false);
+    const [selectedProduct, setSelectedProduct] = useState(null);
     const [currentPage, setCurrentPage] = useState(1);
     const [Gridelist, setGridelist] = useState(true);
+    const [products, setProducts] = useState([]); // Initialize products as an empty array
     const productPerPage = 8;
 
-    // Delete product
+    useEffect(() => {
+        if (Array.isArray(product)) {
+            setProducts(product); // Update products when context product changes
+        } else {
+            console.error("product is not an array", product);
+            setProducts([]); // Set products to an empty array if product is not an array
+        }
+    }, [product]);
+
     const deleteProduct = (ID) => {
-        deletproduct(ID);
-        toast.success("محصول با موفقیت حذف شد", {
-            position: "top-right",
-            style: {
+        swal({
+          title: 'آیا مطمئن هستید؟',
+          text: "شما نمی‌توانید این عملیات را بازگردانید",
+          icon: 'warning',
+          buttons: {
+            cancel: 'لغو',
+            confirm: {
+              text: 'بله، حذف کن',
+              closeModal: true, // تغییر closeModal به true برای بسته شدن خودکار مدال پس از کلیک
+            }
+          }
+        }).then((willDelete) => {
+          if (willDelete) {
+            deletproduct(ID);
+            toast.success("محصول با موفقیت حذف شد", {
+              position: "top-right",
+              style: {
                 fontSize: '20px',
                 textAlign: 'right'
-            }
+              }
+            });
+          }
         });
-    };
+      };
+       
 
-    // Edit product
-    // Edit product
     const editProduct = (item) => {
         setSelectedProduct(item);
-       setshowModalUPDATE(true)
-        console.log("selectedProduct", selectedProduct);
+        setShowModalUPDATE(true);
     };
-
 
     const handleModalClose = () => {
         setShowModal(false);
     };
-    const handleModalCloseUpdate = () => {
-        setshowModalUPDATE(false)
-    }
 
-    // Change current page
+    const handleModalCloseUpdate = () => {
+        setShowModalUPDATE(false);
+    };
+
     const paginate = (pageNumber) => setCurrentPage(pageNumber);
 
-    // Get current products
     const indexOfLastProduct = currentPage * productPerPage;
     const indexOfFirstProduct = indexOfLastProduct - productPerPage;
-    const currentProducts = product.slice(indexOfFirstProduct, indexOfLastProduct);
+    const currentProducts = products.slice(indexOfFirstProduct, indexOfLastProduct);
 
     return (
-        <div className="container" style={{marginTop: "-10rem"}}>
+        <div className="container" style={{ marginTop: "-10rem" }}>
             <ToastContainer />
             <div className="px-4 md:px-0 mb-16">
                 <h1 className="text-center mb-5 text-3xl font-semibold underline" style={{ color: mode === 'dark' ? 'white' : '' }}>Product Details</h1>
@@ -66,9 +87,9 @@ function DashboardTab() {
                             افزودن محصول <FaCartPlus size={20} className="ms-2" />
                         </div>
                     </button>
-                   <div className="col-4 ">
-                   <Search products={product} Gridelist={Gridelist} />
-                   </div>
+                    <div className="col-4">
+                        <Search products={products} Gridelist={Gridelist} />
+                    </div>
                 </div>
                 <div className="table-responsive">
                     <table className="table table-striped">
@@ -85,7 +106,7 @@ function DashboardTab() {
                             </tr>
                         </thead>
                         <tbody>
-                            {currentProducts.map((item, index) => {
+                            {currentProducts.length > 1 ? currentProducts.map((item, index) => {
                                 const { category, name, price, img, quantity } = item;
                                 return (
                                     <tr key={index}>
@@ -101,7 +122,7 @@ function DashboardTab() {
                                         <td>{"1403,5,3"}</td>
                                         <td>{quantity}</td>
                                         <td>
-                                            <div className="btn-group" role="group">
+                                            <div className="btn-group d-flex" role="group">
                                                 <button type="button" className="btn btn-danger" onClick={() => deleteProduct(item.id)}>
                                                     حذف
                                                 </button>
@@ -112,14 +133,13 @@ function DashboardTab() {
                                         </td>
                                     </tr>
                                 );
-                            })}
+                            }): <h5 className='d-flex justify-content-center align-items-center mt-5' style={{marginTop: "10rem"}}>...صفحه رو مجدد رفرش کنید</h5>}
                         </tbody>
                     </table>
                 </div>
-
                 <Pagenation
                     productPage={productPerPage}
-                    totalproduct={product.length}
+                    totalproduct={products.length}
                     Pagenation={paginate}
                     activepage={currentPage}
                 />

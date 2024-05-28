@@ -23,8 +23,9 @@ const translations = {
 };
 
 const Login = () => {
+  scroll(0,0)
   const navigate = useNavigate();
-  const { register, handleSubmit, formState: { errors } } = useForm();
+  const { register, handleSubmit, formState: { errors }, reset } = useForm();
 
   const onSubmit = async (data) => {
     try {
@@ -34,7 +35,11 @@ const Login = () => {
       const user = users.find((user) => user.email === data.email && user.password === data.password);
 
       if (user) {
-        swal("ورود با موفقیت انجام شد");
+        swal({
+          title: "ورود با موفقیت انجام شد",
+          icon: "success"
+        });
+        
         localStorage.setItem('userEmail', data.email);
 
         // هدایت به صفحه مورد نظر بعد از ورود موفقیت‌آمیز
@@ -51,7 +56,7 @@ const Login = () => {
 
   return (
     <LayOUT>
-      <div className="text-center rtl bg-body-tertiary min-vh-100" style={{ padding: "10rem" }}>
+      <div className="text-center rtl bg-body-tertiary min-vh-100 pading100rem-custom">
         <h1 className="h2">{translations.login.title}</h1>
         <p className="lead">{translations.login.introMessage}</p>
         <p className="lead hight-2 pt-3">
@@ -62,7 +67,7 @@ const Login = () => {
         </p>
       </div>
 
-      <div className="card rtl mx-auto" style={{ maxWidth: "400px", marginTop: "-25rem", marginBottom: "10rem" }}>
+      <div className="card rtl mx-auto margintop--2rem" style={{ maxWidth: "400px", marginTop: "-25rem"}}>
         <div className="card-body">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="mb-3">

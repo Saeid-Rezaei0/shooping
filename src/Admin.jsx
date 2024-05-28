@@ -6,11 +6,11 @@ return (
         <>
             <div className="d-flex justify-content-end p-3">
             </div>
-          
-          <div className="row">
-          <div className="col-10"><AdminHome /></div>
+          <AdminHome />
+          {/* <div className="row">
+          <div className="col-10"></div>
            <div className="col-2"> <Sidebar/></div>
-          </div>
+          </div> */}
            
         </>
     );

@@ -11,13 +11,24 @@ import swal from 'sweetalert';
 import { icon } from 'leaflet';
 function CartPage() {
     const [cartitem, setcartitem] = useState([]);
-    const [formData, setFormData] = useState([
-        { country: 'ایران', city: 'تهران', postalCode: '', phoneNumber: '' }
-    ]);
+    const [useremail, setUseremail] = useState(""); // تغییر این خط
+    const [formData, setFormData] = useState({
+        country: 'ایران',
+        city: 'تهران',
+        postalCode: '',
+        phoneNumber: '',
+        useremail: useremail // تغییر این خط
+    });
 
     useEffect(() => {
         const storageCartItem = JSON.parse(localStorage.getItem("cart")) || [];
+        const userEmail = localStorage.getItem("userEmail") || "";
         setcartitem(storageCartItem);
+        setUseremail(userEmail); // تنظیم مقدار useremail
+        setFormData(prevFormData => ({
+            ...prevFormData,
+            useremail: userEmail // بروزرسانی useremail در formData
+        }));
     }, []);
 
     const calculateitem = (item) => {
@@ -51,7 +62,7 @@ function CartPage() {
             title: "محصول با موفقیت حذف شد",
             icon: "success"
         })
-    
+
         const updateproductCart = cartitem.filter(cartItem => cartItem.id !== item.id);
         setcartitem(updateproductCart);
         localStorage.setItem("cart", JSON.stringify(updateproductCart));
@@ -66,8 +77,8 @@ function CartPage() {
         swal({
             text: "ادرس تایید شد به بخش پرداخت بروید",
             icon: "success" // اضافه کردن آیکون
-          });
-                  
+        });
+
         console.log(formData); // نمایش دادن داده‌های فرم در کنسول
     };
     const handleChange = (event) => {
@@ -182,12 +193,16 @@ function CartPage() {
                                                 <label htmlFor="phoneNumber" className="form-label">شماره تلفن</label>
                                                 <input type="text" className='form-control' name="phoneNumber" id='phoneNumber' placeholder='شماره تلفن' onChange={handleChange} />
                                             </div>
-                                            <button type='submit' className='btn btn-primary'>تایید ادرس</button>
+                                            <button disabled={!formData.postalCode || !formData.phoneNumber} type='submit' className='btn btn-primary'>
+                                                {formData.postalCode && formData.phoneNumber ? "تایید آدرس" : "اطلاعات رو کامل کنید ❌"}
+                                            </button>
+
+
                                         </div>
                                     </form>
                                 </div>
 
-                                <div className="col-md-6 col-12 mt-4">
+                                <div className="col-md-6 col-12 mt-4" >
                                     <div className="cart-overview bg-light p-3 rounded shadow-sm">
                                         <h5>مجموع سبد خرید</h5>
                                         <ul className='list-group'>

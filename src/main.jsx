@@ -31,6 +31,11 @@ import AddminPRoductSEction from './AddminPRoductSEction.jsx';
 import Register from './Register.jsx';
 import swal from 'sweetalert';
 import AdminOrder from './AdminOrder.jsx';
+import ADminComment from './ADminComment.jsx';
+import Styke from './Styke.jsx';
+import UsersAdmin from './UsersAdmin.jsx';
+import UserTeket from './compones/UserTeket.jsx';
+import Adminadvise from './Adminadvise.jsx';
 
 const PrivateRoute = ({ component: Component, adminOnly, ...rest }) => {
   const navigate = useNavigate();
@@ -56,14 +61,11 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
     if (!userEmail) {
       swal("برای مشاهده سبد خرید ابتدا ثبت نام کنید");
       navigate("/login");
-    } else {
-      navigate("/card-page");
     }
   }, [userEmail, navigate]);
 
   return userEmail ? <Component {...rest} /> : null;
 };
-
 const router = createBrowserRouter([
   {
     path: "/",
@@ -75,6 +77,7 @@ const router = createBrowserRouter([
       { path: "/shop", element: <Shoping /> },
       { path: "/shop/:id", element: <SingleProduct /> },
       { path: "/card-page", element: <ProtectedRoute component={CartPage} /> },
+      { path: "/UserTeket", element: <ProtectedRoute component={UserTeket} /> },
       { path: "/about", element: <About /> },
       { path: "/contect", element: <Contact /> },
       { path: "/register", element: <Register /> },
@@ -83,6 +86,10 @@ const router = createBrowserRouter([
       { path: "/admin/blog", element: <PrivateRoute component={ADDminblog} adminOnly={true} /> },
       { path: "/admin/product", element: <PrivateRoute component={AddminPRoductSEction} adminOnly={true} /> },
       { path: "/admin/order", element: <PrivateRoute component={AdminOrder} adminOnly={true} /> },
+      { path: "/admin/comment", element: <PrivateRoute component={ADminComment} adminOnly={true} /> },
+      { path: "/admin/styke", element: <PrivateRoute component={Styke} adminOnly={true} /> },
+      { path: "/admin/users", element: <PrivateRoute component={UsersAdmin} adminOnly={true} /> },
+      { path: "/admin/advise", element: <PrivateRoute component={Adminadvise} adminOnly={true} /> },
       { path: "*", element: <NotFound /> },
     ]
   },

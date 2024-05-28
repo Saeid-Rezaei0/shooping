@@ -18,15 +18,31 @@ function BlogSectionAdmin() {
 
     // delete blog
     const deleteBlog = (ID) => {
-        deletblod(ID);
-        toast.success("وبلاگ با موفقیت حذف شد", {
-            position: "top-right",
-            style: {
+        swal({
+          title: 'آیا مطمئن هستید؟',
+          text: "شما نمی‌توانید این عملیات را بازگردانید",
+          icon: 'warning',
+          buttons: {
+              confirm: {
+                text: 'بله، حذف کن',
+                closeModal: true, // تغییر closeModal به true برای بسته شدن خودکار مدال پس از کلیک
+              },
+            cancel: 'لغو',
+          }
+        }).then((willDelete) => {
+          if (willDelete) {
+            deletblod(ID);
+            toast.success("وبلاگ با موفقیت حذف شد", {
+              position: "top-right",
+              style: {
                 fontSize: '20px',
                 textAlign: 'right'
-            }
+              }
+            });
+          }
         });
-    };
+      };
+      
 
     // update blog
     const editItem = (item) => {
@@ -76,7 +92,7 @@ function BlogSectionAdmin() {
                                         <th scope="col">عملیات</th>
                                     </tr>
                                 </thead>
-                                <tbody>
+                                <tbody >
                                     {blog && blog.map((item, index) => {
                                         const { id, imgUrl, imgAlt, title, desc, commentCount, metaList } = item;
                                         return (
@@ -87,19 +103,19 @@ function BlogSectionAdmin() {
                                                         <img src={imgUrl} alt={imgAlt} width={80} />
                                                     </Link>
                                                 </td>
-                                                <td>{title}</td>
-                                                <td>{desc}</td>
+                                                <td className='rtl'>{title}</td>
+                                                <td className='rtl'>{desc}</td>
                                                 <td>{commentCount}</td>
                                                 {metaList.map(item =>
                                                     <td key={item.id}>{item.text}</td>
                                                 )}
                                                 <td>
                                                     <div className="btn-group" role="group">
-                                                        <button type="button" className="btn btn-danger" onClick={() => deleteBlog(item.id)}>
-                                                            حذف
-                                                        </button>
                                                         <button type="button" className="btn btn-primary" onClick={() => editItem(item)}>
                                                             ویرایش
+                                                        </button>
+                                                        <button type="button" className="btn btn-danger" onClick={() => deleteBlog(item.id)}>
+                                                            حذف
                                                         </button>
                                                     </div>
                                                 </td>

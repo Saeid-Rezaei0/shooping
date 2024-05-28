@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { Link, NavLink } from 'react-router-dom'
 import Logo from "../assets/images/logo/ss.png"
+import { FaUser } from 'react-icons/fa'
+import { Dropdown } from 'react-bootstrap'
 export default function Navitem() {
     const [menuToggle, setmenuToggle] = useState(false)
     const [sociaToggle, setsociaToggle] = useState(false)
@@ -30,7 +32,24 @@ export default function Navitem() {
             <div className="container">
                 <div className="header-top-area">
                     <Link to="/register" className="lab-btn me-3"><span>ایجاد حساب</span></Link>
-                   {users?<h6 onClick={clearlocalstorage} className='fw-bold'>خروج</h6> :<Link to="/login"><span>ورود</span></Link>}        
+                    {users?
+                //    <h6 onClick={clearlocalstorage} className='fw-bold'>خروج</h6> 
+                <Dropdown className='rtl'>
+                <Dropdown.Toggle className='bg-transparent border-1 text-dark' id="dropdown-basic">
+                    <FaUser /> {/* اضافه کردن آیکون کاربر */}
+                </Dropdown.Toggle>
+                <Dropdown.Menu className='me-2 rtl bg-transparent border-0' style={{textAlign: "left"}}>
+                    <Dropdown.Item href="#/action-1" onClick={clearlocalstorage}>خروج</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">
+                    <Link to="/card-page">سبد خرید</Link>
+                     </Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">
+                    <Link to="/UserTeket">تیکت ها</Link>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+                   
+                   :<Link to="/login"><span>ورود</span></Link>}          
                 </div>
             </div>
         </div>
@@ -63,8 +82,24 @@ export default function Navitem() {
                         {/*  singin  and login*/}
                         {users? "" : <Link to="/register" className='lab-btn me-3 d-none d-md-block'>ایجاد حساب</Link>}
 
-                        {users?<h6 onClick={clearlocalstorage} className='pt-2 fw-bold' style={{cursor: "pointer"}}>خروج</h6> :<Link to="/login" className='d-none d-md-block' style={{fontSize: "17px"}}>ورود</Link>}        
-                       
+                        {users?
+                //    <h6 onClick={clearlocalstorage} className='fw-bold'>خروج</h6> 
+                <Dropdown className='rtl'>
+                <Dropdown.Toggle className='bg-transparent border-1 text-dark' id="dropdown-basic">
+                    <FaUser /> {/* اضافه کردن آیکون کاربر */}
+                </Dropdown.Toggle>
+                <Dropdown.Menu className='me-2 rtl bg-transparent border-0' style={{textAlign: "left"}}>
+                    <Dropdown.Item href="#/action-1" onClick={clearlocalstorage}>خروج</Dropdown.Item>
+                    <Dropdown.Item href="#/action-2">
+                    <Link to="/card-page">سبد خرید</Link>
+                     </Dropdown.Item>
+                    <Dropdown.Item href="#/action-3">
+                    <Link to="/UserTeket">تیکت ها</Link>
+                    </Dropdown.Item>
+                </Dropdown.Menu>
+            </Dropdown>
+                   
+                   :<Link to="/login"><span>ورود</span></Link>}                          
                         {/* menutoggle */}
                         <div onClick={() => setmenuToggle(!menuToggle)} className={`header-bar d-lg-none ${menuToggle ? "active" : ""}`}>
                             <span></span>
