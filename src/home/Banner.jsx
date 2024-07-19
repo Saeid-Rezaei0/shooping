@@ -66,7 +66,7 @@ export default function HeroSection() {
   };
 
   return (
-    <div className='custom-hight-100'>
+    <div className='custom-hight-100 overflow-hidden'>
       <Swiper
         ref={swiperRef}
         spaceBetween={30}
@@ -153,6 +153,40 @@ export default function HeroSection() {
             </div>
           </div>
         </SwiperSlide>
+        {/* <SwiperSlide>
+          <div className='banner-section style-4 style-11'>
+            <div className="container">
+              <div className="banner-content">
+                <div className="mb-4">
+                  <h4>...بهترین ها رو  را <span className='text-\'>با </span>تجربه کنید</h4>
+                </div>
+                <form>
+                  <SelectedCategory select={"همه"} />
+                  <input
+                    onChange={handleSearch}
+                    value={searchInput}
+                    type="text"
+                    name='search'
+                    className='rtl customSEarch'
+                    id="search"
+                    placeholder='محصول خود را جستجو کنید'
+                  />
+                  <button type='submit'><i className="icofont-search-2"></i></button>
+                </form>
+                {searchInput ? "" :
+                  <p className='customPElen'>... کیفیتی عالی از همه نظر تنوع محصول</p>
+                }
+                <ul className='lab-ul width-custom list-item-Custom'>
+                  {searchInput && filterProducts.map(product => (
+                    <li key={product.id}>
+                      <Link to={`/shop/${product.id}`}>{product.name}</Link>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            </div>
+          </div>
+        </SwiperSlide> */}
         {/* می‌توانید اسلایدهای بیشتری اضافه کنید */}
         <div className="autoplay-progress text-white" slot="container-end">
           <span ref={progressContent}></span>

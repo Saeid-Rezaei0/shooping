@@ -71,21 +71,21 @@ function CommentAdminContent() {
             buttons: ["خیر", "بله"],
             dangerMode: true,
         })
-        .then((willDelete) => {
-            if (willDelete) {
-                fetch(`http://localhost:3000/teket/${ticketId}`, {
-                    method: 'DELETE',
-                })
-                .then(response => response.json())
-                .then(() => {
-                    const updatedTickets = tickets.filter(ticket => ticket.id !== ticketId);
-                    setTickets(updatedTickets);
-                })
-                .catch(error => {
-                    console.error('Error deleting ticket:', error);
-                });
-            }
-        });
+            .then((willDelete) => {
+                if (willDelete) {
+                    fetch(`http://localhost:3000/teket/${ticketId}`, {
+                        method: 'DELETE',
+                    })
+                        .then(response => response.json())
+                        .then(() => {
+                            const updatedTickets = tickets.filter(ticket => ticket.id !== ticketId);
+                            setTickets(updatedTickets);
+                        })
+                        .catch(error => {
+                            console.error('Error deleting ticket:', error);
+                        });
+                }
+            });
     };
 
     return (

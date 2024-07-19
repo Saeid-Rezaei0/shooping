@@ -5047,6 +5047,12 @@ color: red !important;
     padding-bottom: 100px
 }
 
+.banner-section.style-11 {
+    background-image: url(../../assets/images/bg-img/bg--3.jpg);
+    z-index: 1;
+    padding-bottom: 100px
+}
+
 @media(min-width: 992px) {
     .banner-section.style-4 {
         padding-top: 313px;

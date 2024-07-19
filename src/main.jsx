@@ -36,6 +36,7 @@ import Styke from './Styke.jsx';
 import UsersAdmin from './UsersAdmin.jsx';
 import UserTeket from './compones/UserTeket.jsx';
 import Adminadvise from './Adminadvise.jsx';
+import productCommentADmin from './productCommentADmin.jsx';
 
 const PrivateRoute = ({ component: Component, adminOnly, ...rest }) => {
   const navigate = useNavigate();
@@ -90,6 +91,7 @@ const router = createBrowserRouter([
       { path: "/admin/styke", element: <PrivateRoute component={Styke} adminOnly={true} /> },
       { path: "/admin/users", element: <PrivateRoute component={UsersAdmin} adminOnly={true} /> },
       { path: "/admin/advise", element: <PrivateRoute component={Adminadvise} adminOnly={true} /> },
+      { path: "/admin/commentProduct", element: <PrivateRoute component={productCommentADmin} adminOnly={true} /> },
       { path: "*", element: <NotFound /> },
     ]
   },

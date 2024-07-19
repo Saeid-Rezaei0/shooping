@@ -147,6 +147,18 @@ const Sidebar = () => {
                             </span>
                         </NavLink>
                     </li>
+                    <li className="nav-item">
+                        <NavLink
+                            className="nav-link text-white"
+                            activeClassName="active"
+                            to="/admin/commentProduct"
+                        >
+                            <IoIosPerson className="align-middle icon me-2" />
+                            <span className={`align-middle text me-2 ${showSidebar ? '' : 'collapsed'}`}>
+                                 کامنت محصولات <Badge className="p-2 rounded rounded-end circle">{}</Badge>
+                            </span>
+                        </NavLink>
+                    </li>
                  
                 </ul>
             </div>
